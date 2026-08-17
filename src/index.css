@@ -133,13 +133,16 @@ main {
     0px 2px 1px 0 rgba(0, 0, 0, 0.12),
     0px 1px 3px 0 rgba(0, 0, 0, 0.2);
 }
-.feature h4 {
+.card h4 {
   font-size: 1.5rem;
   font-weight: 500;
 }
-.feature p {
-  margin: 0 2rem;
+.card p {
+  margin: 0 2.5rem;
   font-size: 1.2rem;
+}
+.card svg {
+  font-size: 3.5rem;
 }
 
 .footer-container {
@@ -149,6 +152,7 @@ main {
   flex-direction: column;
   justify-content: center;
 }
+
 footer h5 {
   font-weight: 400;
   font-size: 1.5rem;

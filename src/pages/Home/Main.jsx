@@ -47,7 +47,7 @@ const Main = () => {
       </section>
       <section className="choose-us">
         <div className="container">
-          <div className="feature-title">
+          <div className="card-title">
             <h2>Why Choose us?</h2>
           </div>
           <div className="features">
