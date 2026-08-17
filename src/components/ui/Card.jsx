@@ -1,6 +1,6 @@
 const Card = ({ Icon, title, description }) => {
   return (
-    <div className="feature">
+    <div className="card">
       <Icon fontSize="large" />
       <h4>{title}</h4>
       <p>{description}</p>

@@ -28,7 +28,7 @@ const Main = () => {
             </p>
             <div className="button-container">
               <ThemeProvider theme={theme}>
-                <Button variant="outlined" fontSize={"1.5rem"}>
+                <Button variant="outlined" color="primary">
                   Contact Us
                 </Button>
               </ThemeProvider>
