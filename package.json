@@ -15,11 +15,14 @@
     "@mui/icons-material": "^9.3.1",
     "@mui/material": "^9.3.1",
     "@reduxjs/toolkit": "^2.12.0",
+    "axios": "^1.19.0",
     "json-server": "^1.0.0-beta.15",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "react-number-format": "^5.4.5",
     "react-redux": "^9.3.0",
-    "react-router-dom": "^7.18.2"
+    "react-router-dom": "^7.18.2",
+    "uuidjs": "^5.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
