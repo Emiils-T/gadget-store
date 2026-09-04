@@ -113,7 +113,7 @@ const Products = () => {
             spacing={2}
             sx={{ alignItems: "center", justifyContent: "center" }}
           >
-            {products.map((product) => {
+            {products.map((product, index) => {
               return (
                 <Grid
                   size={{
@@ -124,6 +124,7 @@ const Products = () => {
                     xl: 3,
                   }}
                   sx={{ mb: 4 }}
+                  key={index}
                 >
                   <ProductCards
                     product={product}
