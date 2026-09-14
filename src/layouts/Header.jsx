@@ -14,6 +14,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
+import { useCart } from "../App";
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -23,7 +24,7 @@ const Header = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
+  const { cartItems } = useCart();
   return (
     <>
       <Box>
@@ -140,7 +141,7 @@ const Header = () => {
                         color: "#ffffff",
                       }}
                     >
-                      Cart (0)
+                      Cart ({cartItems.length})
                     </Link>
                   </MenuItem>
                 </Menu>
@@ -187,35 +188,13 @@ const Header = () => {
                   component={RouterLink}
                   underline="none"
                 >
-                  Cart(0)
+                  Cart({cartItems.length})
                 </Link>
               </Stack>
             </Toolbar>
           </Container>
         </AppBar>
       </Box>
-      {/* {
-        <header>
-          <div className="container">
-            <div className="header-container">
-              <div className="logo-title">
-                <ComputerIcon sx={{ fontSize: "2rem" }} />
-                <h1>Gadget Store</h1>
-              </div>
-              <div className="nav-links">
-                <Link color="inherit" to="/">
-                  Home
-                </Link>
-                <Link to="/products" component={RouterLink}>
-                  Products
-                </Link>
-                <a href="#">Contact us</a>
-                <a href="#">Cart(0)</a>
-              </div>
-            </div>
-          </div>
-        </header>
-      } */}
     </>
   );
 };

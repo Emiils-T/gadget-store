@@ -3,26 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import ProductForm from "./ProductForm";
 
-import earbuds from "../../assets/images/product_images/earbuds.png";
-import laptop from "../../assets/images/product_images/laptop.png";
-import portableSpeaker from "../../assets/images/product_images/portable_speaker.png";
-import smartphone from "../../assets/images/product_images/smartphone.png";
-import smartwatch from "../../assets/images/product_images/smartwatch.png";
-import tablet from "../../assets/images/product_images/tablet.png";
-import webcam from "../../assets/images/product_images/webcam.png";
-import smartAssistant from "../../assets/images/product_images/smart_assistant.png";
-import { Box, Button, Container, Dialog, Grid, Stack } from "@mui/material";
+import { Box, Button, Container, Grid, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-const productImages = {
-  earbuds: earbuds,
-  laptop: laptop,
-  "portable speaker": portableSpeaker,
-  smartphone: smartphone,
-  smartwatch: smartwatch,
-  tablet: tablet,
-  "web camera": webcam,
-  "smart assistant": smartAssistant,
-};
+
+import { enrichProduct } from "../../utility/ProductImages";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -31,9 +15,7 @@ const Products = () => {
   const getProducts = async () => {
     try {
       const response = await axios.get("http://localhost:3000/products");
-      const data = response.data.map((item) => {
-        return { ...item, image: productImages[item.title.toLowerCase()] };
-      });
+      const data = response.data.map(enrichProduct);
       setProducts(data);
     } catch (error) {
       console.log(error);
@@ -95,9 +77,7 @@ const Products = () => {
               startIcon={<AddIcon />}
               onClick={() => {
                 handleOpenAdd();
-                console.log(selectedProduct);
               }}
-              onClose={handleClose}
               sx={{ fontSize: "1.4rem" }}
             >
               Add new product
@@ -129,7 +109,6 @@ const Products = () => {
                   <ProductCards
                     product={product}
                     onEdit={handleOpenEdit}
-                    onClose={handleClose}
                     onDelete={handleProductDelete}
                   />
                 </Grid>

@@ -1,25 +1,15 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  FilledInput,
-  IconButton,
   InputAdornment,
-  List,
-  ListItem,
-  ListItemText,
   Stack,
   TextField,
-  Typography,
 } from "@mui/material";
-import { useEffect, useState, useContext } from "react";
-import { FormContext } from "./Context";
-import { inputBaseClasses } from "@mui/material/InputBase";
+import { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import { styled } from "@mui/material/styles";
 import { NumericFormat } from "react-number-format";
 
 import { Box } from "@mui/material";
@@ -57,11 +47,11 @@ const ProductForm = ({ onClose, open, initialData = null, onSave }) => {
         features: [],
       });
     }
-    console.log("renders");
   }, [initialData, open]);
   const handleChange = (e) => {
     console.log(e.target.value);
     const { name, value } = e.target;
+    console.log("name:", name);
     setFormData({ ...formData, [name]: value });
   };
   //feature functions
@@ -75,7 +65,7 @@ const ProductForm = ({ onClose, open, initialData = null, onSave }) => {
     updated[id] = value;
     setFormData({ ...formData, features: updated });
   };
-  const handleAddFeature = (e) => {
+  const handleAddFeature = () => {
     if (feature != "") {
       let updated = [...formData.features];
       updated.push(feature);
@@ -165,6 +155,7 @@ const ProductForm = ({ onClose, open, initialData = null, onSave }) => {
               />
               <TextField
                 label="Long description"
+                name="long_description"
                 type="text"
                 value={formData.long_description}
                 onChange={handleChange}
@@ -252,7 +243,7 @@ const ProductForm = ({ onClose, open, initialData = null, onSave }) => {
                     <>
                       <TextField
                         label={`Feature ${index + 1}`}
-                        id={index}
+                        id={feature}
                         type="text"
                         variant="filled"
                         fullWidth
