@@ -24,14 +24,13 @@ import { useEffect } from "react";
 import { enrichProduct } from "../../utility/ProductImages";
 
 import axios from "axios";
-import { useCart } from "../../App";
+import { useCart } from "../../contexts/CartContext.jsx";
 const Main = () => {
   const { id } = useParams();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const open = Boolean(anchorEl);
-  console.log("open ", open);
 
   const [addAnchorEl, setAddAnchorEl] = useState(null);
   const parentRef = useRef(null);
@@ -46,26 +45,24 @@ const Main = () => {
 
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    const getProduct = async () => {
-      try {
-        console.log(id);
-        const response = await axios.get(
-          `http://localhost:3000/products/${id}`,
-        );
-        const fetchedProduct = enrichProduct(response.data);
-        setProduct(fetchedProduct);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const getProduct = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3000/products/${id}`);
 
+      const fetchedProduct = enrichProduct(response.data);
+      setProduct(fetchedProduct);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     getProduct();
   }, [id]);
-  //TODO: make this into its own function
-  const onSave = async (payload, getProduct) => {
+  //TODO: DRY, this is the same logic as in other component
+  const onSave = async (payload) => {
     try {
       if (payload.id) {
         await axios.patch(
@@ -77,6 +74,15 @@ const Main = () => {
         await axios.post("http://localhost:3000/products", payload);
         await getProduct();
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //TODO: same logic as in Products.jsx - better to seperate into its own file and call. DRY
+  const handleProductDelete = async (payload) => {
+    try {
+      await axios.delete(`http://localhost:3000/products/${payload}`, payload);
+      await getProduct();
     } catch (error) {
       console.log(error);
     }
@@ -94,7 +100,8 @@ const Main = () => {
   };
   const handleClose = () => setAnchorEl(null);
 
-  const { addToCart, getSingularCount, removeFromCart } = useCart();
+  const { addToCart, cartItems, removeFromCart } = useCart();
+  const cartItem = cartItems.find((item) => item?.id === product?.id);
 
   if (isLoading) {
     return (
@@ -119,7 +126,7 @@ const Main = () => {
   return (
     <>
       <Container maxWidth="xl" disableGutters sx={{ py: 6, px: 8 }}>
-        <Card sx={{ maxWidth: "100%", pl: 8, pr: 8 }}>
+        <Card sx={{ maxWidth: "100%", px: { xs: 0, sm: 4, md: 8 } }}>
           <Popover
             open={addOpen}
             anchorEl={addAnchorEl}
@@ -173,23 +180,51 @@ const Main = () => {
                   </Typography>
                   <Typography
                     variant="body2"
-                    sx={{ color: "text.secondary", maxWidth: 0.75, py: 2 }}
+                    sx={{
+                      color: "text.secondary",
+                      maxWidth: { xs: 1, md: 0.75 },
+                      py: 2,
+                    }}
                   >
                     {product.long_description}
                   </Typography>
                   <Stack direction="row" spacing={4}>
-                    <Typography variant="h5" sx={{ fontWeight: "Bold" }}>
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        typography: { xs: "h6", md: "h5" },
+                        fontWeight: { xs: "bold", md: "bold" },
+                      }}
+                    >
                       Year: {product.year}
                     </Typography>
-                    <Typography variant="h5" sx={{ fontWeight: "Bold" }}>
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        typography: { xs: "h6", md: "h5" },
+                        fontWeight: { xs: "bold", md: "bold" },
+                      }}
+                    >
                       RAM Memory: {product.RAM}
                     </Typography>
-                    <Typography variant="h5" sx={{ fontWeight: "Bold" }}>
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        typography: { xs: "h6", md: "h5" },
+                        fontWeight: { xs: "bold", md: "bold" },
+                      }}
+                    >
                       Warranty: {product.warranty_period}
                     </Typography>
                   </Stack>
                   <Box component="div">
-                    <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        typography: { xs: "h6", md: "h5" },
+                        fontWeight: { xs: "bold", md: "bold" },
+                      }}
+                    >
                       Features:
                     </Typography>
                     <List sx={{ listStyleType: "disc", pl: 6 }}>
@@ -214,7 +249,7 @@ const Main = () => {
                     Price: {product.price}€
                   </Typography>
                   <Stack
-                    direction="row"
+                    direction={{ xs: "column-reverse", sm: "row" }}
                     spacing={6}
                     sx={{
                       py: 3,
@@ -228,31 +263,33 @@ const Main = () => {
                         handleClick={handleClick}
                         handleClose={handleClose}
                         onEdit={() => handleOpenEdit()}
+                        onDelete={() => handleProductDelete(id)}
                         buttonProps={{
                           sx: {
-                            fontSize: "1.2rem",
+                            fontSize: { xs: "1rem", md: "1.2rem" },
                             flex: { xs: 1, md: "unset" },
                           },
                         }}
                       />
-                      {getSingularCount(id) == 0 ? (
-                        <Button
-                          variant="contained"
+                      {cartItem ? (
+                        <Stack
+                          direction={"row"}
+                          spacing={3}
                           sx={{
-                            fontSize: "1.2rem",
                             flex: { xs: 1, md: "unset" },
-                          }}
-                          onClick={() => {
-                            addToCart(product);
-                            handleClickAddModal();
+                            justifyContent: { xs: "center" },
                           }}
                         >
-                          Add to cart
-                        </Button>
-                      ) : (
-                        <Stack direction={"row"} spacing={3}>
-                          <Button variant="outlined">
-                            {getSingularCount(id) == 1 ? (
+                          <Button
+                            variant="outlined"
+                            sx={{
+                              minWidth: 0,
+                              p: "4px",
+                              width: "fit-content",
+                              height: "fit-content",
+                            }}
+                          >
+                            {cartItem.amount === 1 ? (
                               <DeleteOutlinedIcon
                                 fontSize="large"
                                 sx={{ px: "0" }}
@@ -269,9 +306,17 @@ const Main = () => {
                             )}
                           </Button>
                           <Typography sx={{ fontSize: "2rem" }}>
-                            {getSingularCount(id)}
+                            {cartItem?.amount ?? 0}
                           </Typography>
-                          <Button variant="contained">
+                          <Button
+                            variant="contained"
+                            sx={{
+                              minWidth: 0,
+                              p: "4px",
+                              width: "fit-content",
+                              height: "fit-content",
+                            }}
+                          >
                             <AddIcon
                               fontSize="large"
                               sx={{ px: "0" }}
@@ -281,6 +326,20 @@ const Main = () => {
                             />
                           </Button>
                         </Stack>
+                      ) : (
+                        <Button
+                          variant="contained"
+                          sx={{
+                            fontSize: { xs: "1rem", md: "1.2rem" },
+                            flex: { xs: 1, md: "unset" },
+                          }}
+                          onClick={() => {
+                            addToCart(product);
+                            handleClickAddModal();
+                          }}
+                        >
+                          Add to cart
+                        </Button>
                       )}
                     </>
                   </Stack>

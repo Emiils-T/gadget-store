@@ -14,7 +14,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
-import { useCart } from "../App";
+import { useCart } from "../contexts/CartContext";
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -25,6 +25,8 @@ const Header = () => {
     setAnchorElNav(null);
   };
   const { cartItems } = useCart();
+  let totalCount = 0;
+  cartItems.forEach((item) => (totalCount += item.amount));
   return (
     <>
       <Box>
@@ -133,7 +135,7 @@ const Header = () => {
                   <MenuItem>
                     <Link
                       color="inherit"
-                      to="/#"
+                      to="/cart"
                       component={RouterLink}
                       underline="none"
                       sx={{
@@ -141,7 +143,7 @@ const Header = () => {
                         color: "#ffffff",
                       }}
                     >
-                      Cart ({cartItems.length})
+                      Cart ({totalCount})
                     </Link>
                   </MenuItem>
                 </Menu>
@@ -184,11 +186,11 @@ const Header = () => {
                 </Link>
                 <Link
                   color="inherit"
-                  to="#"
+                  to="/cart"
                   component={RouterLink}
                   underline="none"
                 >
-                  Cart({cartItems.length})
+                  Cart({totalCount})
                 </Link>
               </Stack>
             </Toolbar>

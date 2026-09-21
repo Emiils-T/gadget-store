@@ -1,12 +1,37 @@
 import js from "@eslint/js";
+import pluginReact from "eslint-plugin-react";
 import globals from "globals";
-import { defineConfig } from "eslint/config";
 
-export default defineConfig([
+export default [
   {
-    files: ["**/*.{js,mjs,cjs,jsx}"],
-    plugins: { js },
-    extends: ["js/recommended"],
-    languageOptions: { globals: globals.browser },
+    ignores: ["dist/**", "node_modules/**"],
   },
-]);
+  js.configs.recommended,
+  {
+    files: ["**/*.{js,jsx}"],
+    plugins: {
+      react: pluginReact,
+    },
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: {
+        ...globals.browser,
+      },
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
+    rules: {
+      ...pluginReact.configs.recommended.rules,
+      "react/react-in-jsx-scope": "off",
+    },
+  },
+];
