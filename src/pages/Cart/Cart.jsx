@@ -9,6 +9,7 @@ import {
   Stack,
   Typography,
   Link,
+  Grid,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -90,44 +91,37 @@ const Cart = () => {
             <Card
               key={product.id}
               sx={{
-                px: { xs: 0, sm: 4, md: 8 },
+                px: { xs: 0, md: 2, lg: 0 },
                 mb: 8,
                 maxWidth: "xl",
                 mx: "auto",
               }}
             >
-              <Stack direction="row">
-                <Link component={RouterLink} to={`/product/${product.id}`}>
-                  <CardMedia
-                    component="img"
-                    image={product.image}
-                    sx={{
-                      width: { xs: "100%", md: 250 },
-                      maxWidth: "250px",
-                      mx: "auto",
-                      objectFit: "contain",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  />
-                </Link>
-                <CardContent
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <Stack
-                    direction="row"
-                    sx={{
-                      justifyContent: "space-between",
-                      alignContent: "center",
-                      alignItems: "center",
-                      width: "100%",
-                    }}
-                  >
+              <Grid
+                container
+                spacing={{ xs: 2, md: 4, lg: 6 }}
+                sx={{ alignItems: "center", justifyContent: "center" }}
+              >
+                <Grid size={{ xs: 5, md: 3, lg: 3 }}>
+                  <Link component={RouterLink} to={`/product/${product.id}`}>
+                    <CardMedia
+                      component="img"
+                      image={product.image}
+                      sx={{
+                        width: "100%",
+                        maxWidth: { xs: 160, md: 160, lg: 250 },
+                        mx: "auto",
+                        objectFit: "contain",
+                        display: "block",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    />
+                  </Link>
+                </Grid>
+
+                <Grid size={{ xs: 7, md: 4, lg: 5 }}>
+                  <CardContent>
                     <Stack direction={"column"} spacing={1}>
                       <Typography
                         variant="h4"
@@ -173,77 +167,84 @@ const Cart = () => {
                         Price: {Number(product.price).toFixed(2)}
                       </Typography>
                     </Stack>
-                    <Stack
-                      direction={{ xs: "column-reverse", md: "row" }}
-                      sx={{ alignItems: "center" }}
-                    >
-                      <CardActions>
-                        <Stack
-                          direction={"row"}
-                          spacing={3}
-                          sx={{ alignItems: "center" }}
-                        >
-                          <Button
-                            variant="outlined"
-                            sx={{
-                              minWidth: 0,
-                              p: "4px",
-                              width: "fit-content",
-                              height: "fit-content",
-                            }}
-                            size="medium"
-                            onClick={() => {
-                              removeFromCart(product);
-                            }}
-                          >
-                            {product.amount === 1 ? (
-                              <DeleteOutlinedIcon
-                                fontSize="medium"
-                                sx={{ p: "0" }}
-                              />
-                            ) : (
-                              <RemoveIcon fontSize="medium" sx={{ px: "0" }} />
-                            )}
-                          </Button>
-                          <Typography
-                            sx={{
-                              fontSize: "2rem",
-                              fontWeight: "bold",
-                            }}
-                          >
-                            {product.amount}
-                          </Typography>
-                          <Button
-                            variant="contained"
-                            sx={{
-                              minWidth: 0,
-                              p: "4px",
-                              width: "fit-content",
-                              height: "fit-content",
-                            }}
-                            onClick={() => {
-                              addToCart(product);
-                            }}
-                          >
-                            <AddIcon fontSize="medium" sx={{ px: "0" }} />
-                          </Button>
-                        </Stack>
-                      </CardActions>
+                  </CardContent>
+                </Grid>
+
+                <Grid
+                  size={{ xs: 8, md: 5, lg: 4 }}
+                  sx={{ mb: { xs: 2, lg: 0 } }}
+                >
+                  <Stack
+                    direction={{ xs: "row" }}
+                    sx={{
+                      alignItems: "center",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <CardActions>
                       <Stack
-                        sx={{ textAlign: "center", alignContent: "center" }}
+                        direction={"row"}
+                        spacing={3}
+                        sx={{ alignItems: "center" }}
                       >
-                        <Typography
-                          variant="body1"
-                          sx={{ fontWeight: 600, fontSize: "1.2rem" }}
+                        <Button
+                          variant="outlined"
+                          sx={{
+                            minWidth: 0,
+                            p: "4px",
+                            width: "fit-content",
+                            height: "fit-content",
+                          }}
+                          size="medium"
+                          onClick={() => {
+                            removeFromCart(product);
+                          }}
                         >
-                          Total:{" "}
-                          {Number(product.amount * product.price).toFixed(2)}€
+                          {product.amount === 1 ? (
+                            <DeleteOutlinedIcon
+                              fontSize="medium"
+                              sx={{ p: "0" }}
+                            />
+                          ) : (
+                            <RemoveIcon fontSize="medium" sx={{ px: "0" }} />
+                          )}
+                        </Button>
+                        <Typography
+                          sx={{
+                            fontSize: "2rem",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {product.amount}
                         </Typography>
+                        <Button
+                          variant="contained"
+                          sx={{
+                            minWidth: 0,
+                            p: "4px",
+                            width: "fit-content",
+                            height: "fit-content",
+                          }}
+                          onClick={() => {
+                            addToCart(product);
+                          }}
+                        >
+                          <AddIcon fontSize="medium" sx={{ px: "0" }} />
+                        </Button>
                       </Stack>
+                    </CardActions>
+                    <Stack sx={{ textAlign: "center", alignContent: "center" }}>
+                      <Typography
+                        variant="body1"
+                        sx={{ fontWeight: 600, fontSize: "1.2rem" }}
+                      >
+                        Total:{" "}
+                        {Number(product.amount * product.price).toFixed(2)}€
+                      </Typography>
                     </Stack>
                   </Stack>
-                </CardContent>
-              </Stack>
+                </Grid>
+              </Grid>
             </Card>
           );
         })}
