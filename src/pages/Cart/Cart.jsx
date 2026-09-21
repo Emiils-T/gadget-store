@@ -96,7 +96,7 @@ const Cart = () => {
                 mx: "auto",
               }}
             >
-              <Stack direction={{ xs: "column", md: "row" }}>
+              <Stack direction="row">
                 <Link component={RouterLink} to={`/product/${product.id}`}>
                   <CardMedia
                     component="img"
@@ -120,7 +120,7 @@ const Cart = () => {
                   }}
                 >
                   <Stack
-                    direction={{ xs: "column", md: "row" }}
+                    direction="row"
                     sx={{
                       justifyContent: "space-between",
                       alignContent: "center",
@@ -132,6 +132,7 @@ const Cart = () => {
                       <Typography
                         variant="h4"
                         sx={{
+                          typography: { xs: "h5", md: "h4" },
                           fontWeight: "500",
                           color: "primary.main",
                           mt: 3,
@@ -172,64 +173,74 @@ const Cart = () => {
                         Price: {Number(product.price).toFixed(2)}
                       </Typography>
                     </Stack>
-                    <CardActions>
+                    <Stack
+                      direction={{ xs: "column-reverse", md: "row" }}
+                      sx={{ alignItems: "center" }}
+                    >
+                      <CardActions>
+                        <Stack
+                          direction={"row"}
+                          spacing={3}
+                          sx={{ alignItems: "center" }}
+                        >
+                          <Button
+                            variant="outlined"
+                            sx={{
+                              minWidth: 0,
+                              p: "4px",
+                              width: "fit-content",
+                              height: "fit-content",
+                            }}
+                            size="medium"
+                            onClick={() => {
+                              removeFromCart(product);
+                            }}
+                          >
+                            {product.amount === 1 ? (
+                              <DeleteOutlinedIcon
+                                fontSize="medium"
+                                sx={{ p: "0" }}
+                              />
+                            ) : (
+                              <RemoveIcon fontSize="medium" sx={{ px: "0" }} />
+                            )}
+                          </Button>
+                          <Typography
+                            sx={{
+                              fontSize: "2rem",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {product.amount}
+                          </Typography>
+                          <Button
+                            variant="contained"
+                            sx={{
+                              minWidth: 0,
+                              p: "4px",
+                              width: "fit-content",
+                              height: "fit-content",
+                            }}
+                            onClick={() => {
+                              addToCart(product);
+                            }}
+                          >
+                            <AddIcon fontSize="medium" sx={{ px: "0" }} />
+                          </Button>
+                        </Stack>
+                      </CardActions>
                       <Stack
-                        direction={"row"}
-                        spacing={3}
-                        sx={{ alignItems: "center" }}
+                        sx={{ textAlign: "center", alignContent: "center" }}
                       >
-                        <Button
-                          variant="outlined"
-                          sx={{
-                            minWidth: 0,
-                            p: "4px",
-                            width: "fit-content",
-                            height: "fit-content",
-                          }}
-                          size="medium"
-                          onClick={() => {
-                            removeFromCart(product);
-                          }}
-                        >
-                          {product.amount === 1 ? (
-                            <DeleteOutlinedIcon
-                              fontSize="medium"
-                              sx={{ p: "0" }}
-                            />
-                          ) : (
-                            <RemoveIcon fontSize="medium" sx={{ px: "0" }} />
-                          )}
-                        </Button>
                         <Typography
-                          sx={{ fontSize: "2rem", fontWeight: "bold" }}
+                          variant="body1"
+                          sx={{ fontWeight: 600, fontSize: "1.2rem" }}
                         >
-                          {product.amount}
+                          Total:{" "}
+                          {Number(product.amount * product.price).toFixed(2)}€
                         </Typography>
-                        <Button
-                          variant="contained"
-                          sx={{
-                            minWidth: 0,
-                            p: "4px",
-                            width: "fit-content",
-                            height: "fit-content",
-                          }}
-                          onClick={() => {
-                            addToCart(product);
-                          }}
-                        >
-                          <AddIcon fontSize="medium" sx={{ px: "0" }} />
-                        </Button>
                       </Stack>
-                    </CardActions>
-                    <Box component={"div"}>
-                      <Typography
-                        variant="body1"
-                        sx={{ fontWeight: 600, fontSize: "1.2rem" }}
-                      >
-                        Total:{" "}
-                        {Number(product.amount * product.price).toFixed(2)}€
-                      </Typography>
-                    </Box>
+                    </Stack>
                   </Stack>
                 </CardContent>
               </Stack>

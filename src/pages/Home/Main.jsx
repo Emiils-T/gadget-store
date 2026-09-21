@@ -35,7 +35,7 @@ const Main = () => {
       <Box sx={{ bgcolor: "secondary.main" }}>
         <Container
           maxWidth="xl"
-          sx={{ px: 8, py: { xs: 6, md: 0 } }}
+          sx={{ px: 8, pt: { xs: 6, md: 0 } }}
           disableGutters
         >
           <Grid
