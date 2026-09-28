@@ -14,7 +14,8 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
-import { useCart } from "../contexts/CartContext";
+import { useSelector } from "react-redux";
+import { selectAmount } from "../features/cart/cartSlice";
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -24,9 +25,9 @@ const Header = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-  const { cartItems } = useCart();
-  let totalCount = 0;
-  cartItems.forEach((item) => (totalCount += item.amount));
+
+  const totalCount = useSelector(selectAmount);
+
   return (
     <>
       <Box>

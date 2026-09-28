@@ -49,9 +49,7 @@ const ProductForm = ({ onClose, open, initialData = null, onSave }) => {
     }
   }, [initialData, open]);
   const handleChange = (e) => {
-    console.log(e.target.value);
     const { name, value } = e.target;
-    console.log("name:", name);
     setFormData({ ...formData, [name]: value });
   };
   //feature functions
@@ -60,7 +58,6 @@ const ProductForm = ({ onClose, open, initialData = null, onSave }) => {
   };
   const handleFeatureChange = (e) => {
     const { id, value } = e.target;
-    console.log(id, value);
     const updated = [...formData.features];
     updated[id] = value;
     setFormData({ ...formData, features: updated });

@@ -24,9 +24,16 @@ import { useEffect } from "react";
 import { enrichProduct } from "../../utility/ProductImages";
 
 import axios from "axios";
-import { useCart } from "../../contexts/CartContext.jsx";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  add,
+  remove,
+  selectProductAmount,
+} from "../../features/cart/cartSlice.js";
 const Main = () => {
   const { id } = useParams();
+
+  const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -100,8 +107,10 @@ const Main = () => {
   };
   const handleClose = () => setAnchorEl(null);
 
-  const { addToCart, cartItems, removeFromCart } = useCart();
-  const cartItem = cartItems.find((item) => item?.id === product?.id);
+  const amount = useSelector((state) => {
+    if (!product) return 0;
+    return selectProductAmount(state, product);
+  });
 
   if (isLoading) {
     return (
@@ -271,7 +280,7 @@ const Main = () => {
                           },
                         }}
                       />
-                      {cartItem ? (
+                      {amount !== 0 ? (
                         <Stack
                           direction={"row"}
                           spacing={3}
@@ -288,25 +297,21 @@ const Main = () => {
                               width: "fit-content",
                               height: "fit-content",
                             }}
+                            onClick={() => {
+                              dispatch(remove(product));
+                            }}
                           >
-                            {cartItem.amount === 1 ? (
+                            {amount === 1 ? (
                               <DeleteOutlinedIcon
                                 fontSize="large"
                                 sx={{ px: "0" }}
-                                onClick={() => removeFromCart(product)}
                               />
                             ) : (
-                              <RemoveIcon
-                                fontSize="large"
-                                sx={{ px: "0" }}
-                                onClick={() => {
-                                  removeFromCart(product);
-                                }}
-                              />
+                              <RemoveIcon fontSize="large" sx={{ px: "0" }} />
                             )}
                           </Button>
                           <Typography sx={{ fontSize: "2rem" }}>
-                            {cartItem?.amount ?? 0}
+                            {amount}
                           </Typography>
                           <Button
                             variant="contained"
@@ -316,14 +321,11 @@ const Main = () => {
                               width: "fit-content",
                               height: "fit-content",
                             }}
+                            onClick={() => {
+                              dispatch(add(product));
+                            }}
                           >
-                            <AddIcon
-                              fontSize="large"
-                              sx={{ px: "0" }}
-                              onClick={() => {
-                                addToCart(product);
-                              }}
-                            />
+                            <AddIcon fontSize="large" sx={{ px: "0" }} />
                           </Button>
                         </Stack>
                       ) : (
@@ -334,8 +336,8 @@ const Main = () => {
                             flex: { xs: 1, md: "unset" },
                           }}
                           onClick={() => {
-                            addToCart(product);
                             handleClickAddModal();
+                            dispatch(add(product));
                           }}
                         >
                           Add to cart

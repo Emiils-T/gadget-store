@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Card,
   CardActions,
@@ -15,17 +14,16 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
-import { useCart } from "../../contexts/CartContext";
 import { Link as RouterLink } from "react-router-dom";
-
+import { selectTotal, remove, add } from "../../features/cart/cartSlice";
+import { useSelector, useDispatch } from "react-redux";
 const Cart = () => {
-  const { addToCart, cartItems, removeFromCart } = useCart();
-  const cartTotal = cartItems.reduce(
-    (total, item) => total + item.amount * item.price,
-    0,
-  );
+  const cartTotal = useSelector(selectTotal);
 
-  const isCart = Boolean(cartItems.length);
+  const cart = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
+
+  const isCart = Boolean(cart.length);
   return (
     <Container maxWidth="xl" disableGutters sx={{ pb: 6, pt: 9, px: 6 }}>
       <Stack
@@ -85,8 +83,8 @@ const Cart = () => {
         </Card>
       )}
 
-      {isCart &&
-        cartItems.map((product) => {
+      {cart &&
+        cart.map((product) => {
           return (
             <Card
               key={product.id}
@@ -197,7 +195,7 @@ const Cart = () => {
                           }}
                           size="medium"
                           onClick={() => {
-                            removeFromCart(product);
+                            dispatch(remove(product));
                           }}
                         >
                           {product.amount === 1 ? (
@@ -226,7 +224,7 @@ const Cart = () => {
                             height: "fit-content",
                           }}
                           onClick={() => {
-                            addToCart(product);
+                            dispatch(add(product));
                           }}
                         >
                           <AddIcon fontSize="medium" sx={{ px: "0" }} />

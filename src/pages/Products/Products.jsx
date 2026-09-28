@@ -23,7 +23,6 @@ const Products = () => {
   };
   useEffect(() => {
     getProducts();
-    console.log("renders");
   }, []);
 
   const handleClose = () => {
