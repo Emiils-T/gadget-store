@@ -119,164 +119,162 @@ const ProductForm = ({ onClose, open, initialData = null, onSave }) => {
 
   const isEdit = Boolean(initialData);
   return (
-    <>
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-        <Box component="form" onSubmit={handleSubmit} noValidate>
-          <DialogContent
-            dividers
-            sx={{ maxHeight: "70vh", borderBottom: "none" }}
-          >
-            <Stack spacing={2} sx={{ py: 4 }}>
-              <TextField
-                label="Title"
-                value={formData.title}
-                type="text"
-                onChange={handleChange}
-                variant="filled"
-                fullWidth
-                name="title"
-                error={!!error.title}
-                helperText={error.title}
-              />
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+      <Box component="form" onSubmit={handleSubmit} noValidate>
+        <DialogContent
+          dividers
+          sx={{ maxHeight: "70vh", borderBottom: "none" }}
+        >
+          <Stack spacing={2} sx={{ py: 4 }}>
+            <TextField
+              label="Title"
+              value={formData.title}
+              type="text"
+              onChange={handleChange}
+              variant="filled"
+              fullWidth
+              name="title"
+              error={!!error.title}
+              helperText={error.title}
+            />
 
-              <TextField
-                label="Short description"
-                type="text"
-                value={formData.short_description}
-                onChange={handleChange}
-                variant="filled"
-                fullWidth
-                name="short_description"
-                error={!!error.short_description}
-                helperText={error.short_description}
-              />
-              <TextField
-                label="Long description"
-                name="long_description"
-                type="text"
-                value={formData.long_description}
-                onChange={handleChange}
-                variant="filled"
-                fullWidth
-              />
+            <TextField
+              label="Short description"
+              type="text"
+              value={formData.short_description}
+              onChange={handleChange}
+              variant="filled"
+              fullWidth
+              name="short_description"
+              error={!!error.short_description}
+              helperText={error.short_description}
+            />
+            <TextField
+              label="Long description"
+              name="long_description"
+              type="text"
+              value={formData.long_description}
+              onChange={handleChange}
+              variant="filled"
+              fullWidth
+            />
 
-              <NumericFormat
-                value={formData.price}
-                onChange={handleChange}
-                customInput={TextField}
-                thousandSeparator
-                valueIsNumericString
-                suffix="€"
-                variant="filled"
-                label="Price"
-                name="price"
-                error={!!error.price}
-                helperText={error.price}
-              />
+            <NumericFormat
+              value={formData.price}
+              onChange={handleChange}
+              customInput={TextField}
+              thousandSeparator
+              valueIsNumericString
+              suffix="€"
+              variant="filled"
+              label="Price"
+              name="price"
+              error={!!error.price}
+              helperText={error.price}
+            />
 
-              <TextField
-                label="Year"
-                type="year"
-                value={formData.year}
-                onChange={handleChange}
-                variant="filled"
-                fullWidth
-                name="year"
-              />
-              <TextField
-                label="Ram"
-                type="text"
-                value={formData.RAM}
-                onChange={handleChange}
-                variant="filled"
-                fullWidth
-                name="RAM"
-              />
-              <TextField
-                label="Warranty"
-                type="text"
-                value={formData.warranty_period}
-                onChange={handleChange}
-                variant="filled"
-                fullWidth
-                name="warranty_period"
-                error={!!error.warranty_period}
-                helperText={error.warranty_period}
-              />
-              <TextField
-                label="Image URL"
-                name="image"
-                variant="filled"
-                value={formData.image}
-                onChange={handleChange}
-                fullWidth
-              />
-              <TextField
-                label="Add Feature"
-                type="text"
-                variant="filled"
-                fullWidth
-                name="add-feature"
-                value={feature}
-                onChange={newFeatureChange}
-                slotProps={{
-                  input: {
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <AddIcon
-                          onClick={handleAddFeature}
-                          sx={{ cursor: "pointer" }}
-                        />
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-                error={!!error.features}
-                helperText={error.features}
-              />
-              {formData.features.map((feature, index) => {
-                if (feature != "") {
-                  return (
-                    <>
-                      <TextField
-                        label={`Feature ${index + 1}`}
-                        id={feature}
-                        type="text"
-                        variant="filled"
-                        fullWidth
-                        name={`feature${index}`}
-                        value={feature}
-                        onChange={handleFeatureChange}
-                        slotProps={{
-                          input: {
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <DeleteIcon
-                                  onClick={() => handleFeatureDelete(index)}
-                                  sx={{ cursor: "pointer" }}
-                                />
-                              </InputAdornment>
-                            ),
-                          },
-                        }}
+            <TextField
+              label="Year"
+              type="year"
+              value={formData.year}
+              onChange={handleChange}
+              variant="filled"
+              fullWidth
+              name="year"
+            />
+            <TextField
+              label="Ram"
+              type="text"
+              value={formData.RAM}
+              onChange={handleChange}
+              variant="filled"
+              fullWidth
+              name="RAM"
+            />
+            <TextField
+              label="Warranty"
+              type="text"
+              value={formData.warranty_period}
+              onChange={handleChange}
+              variant="filled"
+              fullWidth
+              name="warranty_period"
+              error={!!error.warranty_period}
+              helperText={error.warranty_period}
+            />
+            <TextField
+              label="Image URL"
+              name="image"
+              variant="filled"
+              value={formData.image}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              label="Add Feature"
+              type="text"
+              variant="filled"
+              fullWidth
+              name="add-feature"
+              value={feature}
+              onChange={newFeatureChange}
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <AddIcon
+                        onClick={handleAddFeature}
+                        sx={{ cursor: "pointer" }}
                       />
-                    </>
-                  );
-                }
-              })}
-            </Stack>
-          </DialogContent>
-          <DialogActions sx={{ justifyContent: "center", my: 2 }}>
-            <Button onClick={onClose} variant="outlined">
-              Cancel
-            </Button>
-            <Button type="submit" variant="contained">
-              {isEdit ? "Edit" : "Add product"}
-            </Button>
-          </DialogActions>
-        </Box>
-      </Dialog>
-    </>
+                    </InputAdornment>
+                  ),
+                },
+              }}
+              error={!!error.features}
+              helperText={error.features}
+            />
+            {formData.features.map((feature, index) => {
+              if (feature != "") {
+                return (
+                  <>
+                    <TextField
+                      label={`Feature ${index + 1}`}
+                      id={feature}
+                      type="text"
+                      variant="filled"
+                      fullWidth
+                      name={`feature${index}`}
+                      value={feature}
+                      onChange={handleFeatureChange}
+                      slotProps={{
+                        input: {
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <DeleteIcon
+                                onClick={() => handleFeatureDelete(index)}
+                                sx={{ cursor: "pointer" }}
+                              />
+                            </InputAdornment>
+                          ),
+                        },
+                      }}
+                    />
+                  </>
+                );
+              }
+            })}
+          </Stack>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: "center", my: 2 }}>
+          <Button onClick={onClose} variant="outlined">
+            Cancel
+          </Button>
+          <Button type="submit" variant="contained">
+            {isEdit ? "Edit" : "Add product"}
+          </Button>
+        </DialogActions>
+      </Box>
+    </Dialog>
   );
 };
 export default ProductForm;
