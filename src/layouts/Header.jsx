@@ -121,7 +121,7 @@ const Header = () => {
                 <MenuItem>
                   <Link
                     color="inherit"
-                    to="/#"
+                    to="/contact"
                     component={RouterLink}
                     underline="none"
                     sx={{
@@ -178,7 +178,7 @@ const Header = () => {
               </Link>
               <Link
                 color="inherit"
-                to="#"
+                to="/contact"
                 component={RouterLink}
                 underline="none"
               >

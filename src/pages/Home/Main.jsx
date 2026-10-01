@@ -77,13 +77,15 @@ const Main = () => {
                 spacing={2}
                 sx={{ justifyContent: { xs: "center", md: "start" } }}
               >
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  sx={{ fontSize: "large" }}
-                >
-                  Contact Us
-                </Button>
+                <Link to="/contact">
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    sx={{ fontSize: "large" }}
+                  >
+                    Contact Us
+                  </Button>
+                </Link>
                 <Link to="/products">
                   <Button
                     variant="contained"
