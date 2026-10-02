@@ -1,9 +1,9 @@
-import { Box, Container, Grid, Typography, Stack } from "@mui/material";
+import { Box, Container, Grid, Typography, Stack, Link } from "@mui/material";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import Card from "../../components/ui/Card";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
-
+import { Link as RouterLink } from "react-router-dom";
 const Contact = () => {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   const lat = 81.60293576891738;
@@ -64,12 +64,30 @@ const Contact = () => {
               <Card
                 Icon={HeadphonesIcon}
                 title={"Phone number"}
-                description={"0123456789"}
+                description={
+                  <Link
+                    component={RouterLink}
+                    to="tel:0123456789"
+                    underline="none"
+                    color="text.primary"
+                  >
+                    0123456789
+                  </Link>
+                }
               />
               <Card
                 Icon={AlternateEmailIcon}
                 title={"E-mail"}
-                description={"gadget@store.com"}
+                description={
+                  <Link
+                    component={RouterLink}
+                    underline="none"
+                    to="mailto:gadget@store.com"
+                    color="text.primary"
+                  >
+                    gadget@store.com
+                  </Link>
+                }
               />
             </Stack>
           </Grid>
