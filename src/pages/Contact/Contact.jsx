@@ -10,28 +10,36 @@ const Contact = () => {
   const lon = -16.660172515999903;
   return (
     <APIProvider apiKey={apiKey}>
-      <Container disableGutters maxWidth="xl" sx={{ py: 6, px: 8 }}>
+      <Container
+        disableGutters
+        maxWidth="xl"
+        sx={{ pt: { xs: 6, md: 12 }, pb: { xs: 6, md: 12 }, px: 8 }}
+      >
         <Grid container spacing={6}>
           <Grid
             size={{ xs: 12, md: 8 }}
-            sx={{ justifyContent: "space-between", flexDirection: "column" }}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              flexDirection: "column",
+            }}
           >
             <Typography
               variant="h3"
               sx={{
                 typography: { xs: "h4", md: "h3" },
                 fontWeight: { xs: "500", md: "500" },
-                mb: { xs: 4 },
+                mb: { xs: 4, md: 8 },
               }}
             >
               Contact us by Phone, Email, or Visit us in our Office!
             </Typography>
-            <Box sx={{}}>
-              <Typography variant="body2" sx={{ mb: 2 }}>
+            <Box>
+              <Typography variant="body1" sx={{ mb: 4 }}>
                 Our address: Station Nord 23456, Greenland
               </Typography>
               <Map
-                style={{ width: "100%", height: "350px" }}
+                style={{ width: "100%", height: "320px" }}
                 defaultCenter={{
                   lat: lat,
                   lng: lon,
@@ -46,7 +54,7 @@ const Contact = () => {
           <Grid size={{ xs: 12, md: 4 }}>
             <Stack
               spacing={6}
-              direction={{ xs: "row", md: "column" }}
+              direction={{ xs: "column", sm: "row", md: "column" }}
               sx={{
                 alignItems: "center",
                 justifyContent: { md: "space-between", xs: "space-around" },

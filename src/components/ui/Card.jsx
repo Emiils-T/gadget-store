@@ -6,8 +6,11 @@ const Card = ({ Icon, title, description }) => {
       sx={{
         bgcolor: "secondary.main",
         maxWidth: 311,
-        minWidth: 240,
-        mx: "auto",
+        width: "100%",
+        minHeight: 269,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <CardContent sx={{ textAlign: "center" }}>

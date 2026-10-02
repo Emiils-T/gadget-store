@@ -121,7 +121,7 @@ const Main = () => {
         </Container>
       </Box>
 
-      <Container maxWidth="lg" disableGutters sx={{ px: 8, py: 6 }}>
+      <Container maxWidth="lg" disableGutters sx={{ px: 8, py: 6, mb: 6 }}>
         <Typography
           variant="h4"
           sx={{ fontWeight: "500", textAlign: "center", mb: 6 }}
@@ -134,11 +134,12 @@ const Main = () => {
             return (
               <Grid
                 size={{
-                  sm: 12,
+                  xs: 12,
                   md: 6,
                   lg: 4,
                 }}
                 key={index}
+                sx={{ display: "flex", justifyContent: "center" }}
               >
                 <Card
                   Icon={item.icon}
